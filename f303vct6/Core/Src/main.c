@@ -44,6 +44,11 @@ static void do_full_step() {
 	do_step(8);
 	HAL_Delay(4);
 }
+// Количество шагов для полного оборота
+const int steps_per_full_rotation = 200;
+
+// Повернуть на Х градусов
+const int rotate_deg = 90;
 
 int main(void) {
 
