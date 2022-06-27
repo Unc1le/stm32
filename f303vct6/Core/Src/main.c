@@ -17,9 +17,7 @@ static void MX_GPIO_Init(void);
 static void MX_UART4_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-
-
-	//on_step = !on_step;
+	on_step = !on_step;
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
@@ -47,7 +45,7 @@ static void do_full_step() {
 	HAL_Delay(4);
 }
 // Количество шагов для полного оборота
-const int steps_per_full_rotation = 200;
+const int steps_per_full_rotation = 512;
 
 // Повернуть на Х градусов
 const int rotate_deg = 90;
@@ -61,14 +59,10 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_UART4_Init();
 
-	//txdata[0] = 0x35;
-	//HAL_UART_Receive_IT(&huart4, rxdata, 1);
-
-	uint8_t step = 0;
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
-		do_step(1);
-		HAL_Delay(4);
+		do_full_step(1);
+		HAL_Delay(5);
 	}
 
 	while (1) {
