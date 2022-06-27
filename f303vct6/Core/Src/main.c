@@ -61,7 +61,7 @@ int main(void) {
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
 		do_full_step(1);
-		HAL_Delay(5);
+		HAL_Delay(4);
 	}
 
 	while (1) {
