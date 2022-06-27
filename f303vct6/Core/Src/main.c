@@ -24,7 +24,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	HAL_UART_Receive_IT(&huart4, &rxdata, 1);
 }
 
-
 static void do_step(uint8_t config) {
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, config & (1 << 0));
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, config & (1 << 1));
@@ -46,9 +45,6 @@ static void do_full_step() {
 	HAL_Delay(4);
 }
 
-
-
-
 int main(void) {
 
 	HAL_Init();
@@ -61,7 +57,6 @@ int main(void) {
 	//txdata[0] = 0x35;
 	//HAL_UART_Receive_IT(&huart4, rxdata, 1);
 
-
 	uint8_t step = 0;
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
@@ -69,22 +64,16 @@ int main(void) {
 		HAL_Delay(4);
 	}
 
-
 	while (1) {
 
-
-
-
-	 }
+	}
 
 }
-
 
 void SystemClock_Config(void) {
 	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
 	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
 	RCC_PeriphCLKInitTypeDef PeriphClkInit = { 0 };
-
 
 	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
 	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -93,7 +82,6 @@ void SystemClock_Config(void) {
 	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
 		Error_Handler();
 	}
-
 
 	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
 			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
@@ -112,9 +100,7 @@ void SystemClock_Config(void) {
 	}
 }
 
-
 static void MX_UART4_Init(void) {
-
 
 	huart4.Instance = UART4;
 	huart4.Init.BaudRate = 9600;
@@ -132,10 +118,8 @@ static void MX_UART4_Init(void) {
 
 }
 
-
 static void MX_GPIO_Init(void) {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 
 	__HAL_RCC_GPIOF_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
@@ -143,21 +127,17 @@ static void MX_GPIO_Init(void) {
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 	__HAL_RCC_GPIOC_CLK_ENABLE();
 
-
 	HAL_GPIO_WritePin(GPIOE,
 			GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12
 					| GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_RESET);
 
-
 	HAL_GPIO_WritePin(GPIOD,
 	GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11, GPIO_PIN_RESET);
-
 
 	GPIO_InitStruct.Pin = GPIO_PIN_0;
 	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 
 	GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11
 			| GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
@@ -166,19 +146,16 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-
 	GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-
 	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 }
-
 
 void Error_Handler(void) {
 
