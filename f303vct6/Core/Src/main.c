@@ -14,14 +14,9 @@ UART_HandleTypeDef huart4;
 
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_UART4_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	on_step = !on_step;
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	HAL_UART_Receive_IT(&huart4, &rxdata, 1);
 }
 
 static void do_step(uint8_t config) {
@@ -57,7 +52,6 @@ int main(void) {
 	SystemClock_Config();
 
 	MX_GPIO_Init();
-	MX_UART4_Init();
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
 		do_full_step(1);
@@ -97,24 +91,6 @@ void SystemClock_Config(void) {
 	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) {
 		Error_Handler();
 	}
-}
-
-static void MX_UART4_Init(void) {
-
-	huart4.Instance = UART4;
-	huart4.Init.BaudRate = 9600;
-	huart4.Init.WordLength = UART_WORDLENGTH_8B;
-	huart4.Init.StopBits = UART_STOPBITS_1;
-	huart4.Init.Parity = UART_PARITY_NONE;
-	huart4.Init.Mode = UART_MODE_TX_RX;
-	huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	huart4.Init.OverSampling = UART_OVERSAMPLING_16;
-	huart4.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-	huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-	if (HAL_UART_Init(&huart4) != HAL_OK) {
-		Error_Handler();
-	}
-
 }
 
 static void MX_GPIO_Init(void) {
