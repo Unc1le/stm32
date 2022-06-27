@@ -16,14 +16,22 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	on_step = !on_step;
-}
+ on_step = !on_step;
+ }
 
 static void do_step(uint8_t config) {
+
+
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, config & (1 << 0));
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, config & (1 << 1));
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, config & (1 << 2));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, config & (1 << 3));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, config & (1 << 3));}
+
+
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, config & (1 << 0));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, config & (1 << 1));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, config & (1 << 2));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, config & (1 << 3));
 }
 
 static void do_full_step() {
