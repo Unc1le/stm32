@@ -119,54 +119,6 @@ int main(void) {
 		do_step(1);
 		HAL_Delay(4);
 	}
-
-	while (1) {
-		if (on_step) {
-			step = step + 1;
-			HAL_Delay(2);
-			if (step > 3) {
-				step = 0;
-			}
-		}
-
-		switch (step) {
-		case 0:
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-
-			break;
-
-		case 1:
-
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-
-			break;
-
-		case 2:
-
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-
-			break;
-
-		case 3:
-
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, SET);
-			break;
-		}
-
-	}
-	/* USER CODE END 3 */
 }
 
 /**
