@@ -59,7 +59,6 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_UART4_Init();
 
-
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
 		do_full_step(1);
 		HAL_Delay(5);
