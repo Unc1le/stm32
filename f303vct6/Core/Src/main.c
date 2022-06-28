@@ -13,37 +13,87 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	on_step = !on_step; count = 0;
+	on_step = !on_step;
+	count = 0;
 }
 
 int main(void) {
 	HAL_Init();
-    SystemClock_Config();
-    MX_GPIO_Init();
+	SystemClock_Config();
+	MX_GPIO_Init();
 
 	while (1) {
 
-		if (on_step == 0 && count < angle*1.422) {
+		if (on_step == 0 && count < angle * 1.422) {
 			step = step + 1;
 			HAL_Delay(2);
-			if (step > 3) {
+			if (step > 4) {
 				step = 0;
 				count = count + 1;
 			}
 
 			switch (step) {
 			case 0:
+										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+										break;
+
+			case 1:
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, SET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
 				break;
 
-			case 1:
+			case 2:
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, SET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+				break;
+
+			case 3:
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, SET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+				break;
+
+			case 4:
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, SET);
+
+				break;
+
+			}
+		}
+
+		if (on_step && count < angle * 1.422) {
+
+			step = step + 1;
+			HAL_Delay(2);
+			if (step > 4) {
+				step = 0;
+				count = count + 1;
+			}
+
+			switch (step) {
+			case 0:
+							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+							break;
+
+			case 1:
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, SET);
 				break;
 
 			case 2:
@@ -55,49 +105,19 @@ int main(void) {
 
 			case 3:
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, SET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+				break;
+
+			case 4:
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, SET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, SET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
 				break;
+
 			}
-		}
-
-		if (on_step && count < angle*1.422) {
-
-						step = step + 1;
-						HAL_Delay(2);
-						if (step > 3) {
-							step = 0;
-							count = count + 1; }
-
-			switch (step) {
-						case 0:
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, SET);
-			break;
-
-						case 1:
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-			break;
-
-						case 2:
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-			break;
-
-						case 3:
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-			break;}
 		}
 	}
 
