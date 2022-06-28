@@ -6,9 +6,7 @@ uint8_t led_on = 0;
 uint8_t rxdata[5] = { 0 };
 uint8_t txdata[5] = { 0xff };
 uint8_t TIM_count = 0;
-
 uint8_t on_step;
-uint16_t angle = 0;
 
 typedef enum {
  STEP_0 = 1 << 0,
@@ -30,22 +28,31 @@ static void MX_GPIO_Init(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
  on_step = !on_step;
+
+ rotation = rotation == CLOCKWISE
+     ? COUNTER_CLOCKWISE
+     : CLOCKWISE;
+
  }
 
-static void rotate_clockwise() {
-  // поворачиваю по часовой
+static void rotate_clockwise(motor_step steps) {
+	HAL_Delay(2);
+	  	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, steps & (STEP_0));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, steps & (STEP_1));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, steps & (STEP_2));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, steps & (STEP_3));
 }
 
-static void rotate_counter_clockwise() {
-  // поворачиваю против часовой
+static void rotate_counter_clockwise(motor_step steps) {
+	HAL_Delay(2);
+	  	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, steps & (STEP_0));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, steps & (STEP_1));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, steps & (STEP_2));
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, steps & (STEP_3));
 }
 
-// переключение режима по кнопке
-static void on_button_press() {
-  rotation = rotation == CLOCKWISE
-    ? COUNTER_CLOCKWISE
-    : CLOCKWISE;
-}
+
+
 
 
 
@@ -55,11 +62,12 @@ static void on_button_press() {
 
 static void single_step(motor_step steps) {
 
-HAL_Delay(4);
+HAL_Delay(2);
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, steps & (STEP_0));
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, steps & (STEP_1));
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, steps & (STEP_2));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, steps & (STEP_3));}
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, steps & (STEP_3));
+}
 
 
 
@@ -85,8 +93,11 @@ int main(void) {
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
 		full_step(1);
-		HAL_Delay(4);
+		HAL_Delay(2);
 	}
+
+
+
 
 	while (1) {
 	}
