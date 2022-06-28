@@ -10,6 +10,19 @@ uint8_t TIM_count = 0;
 uint8_t on_step;
 uint16_t angle = 0;
 
+typedef enum {
+ STEP_0 = 1 << 0,
+ STEP_1 = 1 << 1,
+ STEP_2 = 1 << 2,
+ STEP_3 = 1 << 3,
+} motor_step;
+
+typedef enum {
+  CLOCKWISE,
+  COUNTER_CLOCKWISE,
+} rotation_t;
+static rotation_t rotation = CLOCKWISE;
+
 UART_HandleTypeDef huart4;
 
 void SystemClock_Config(void);
@@ -19,38 +32,47 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
  on_step = !on_step;
  }
 
-static void do_step(uint8_t config) {
-
-
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, config & (1 << 0));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, config & (1 << 1));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, config & (1 << 2));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, config & (1 << 3));}
-
-
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, config & (1 << 0));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, config & (1 << 1));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, config & (1 << 2));
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, config & (1 << 3));
+static void rotate_clockwise() {
+  // поворачиваю по часовой
 }
 
-static void do_full_step() {
-	do_step(1);
-	HAL_Delay(4);
-
-	do_step(2);
-	HAL_Delay(4);
-
-	do_step(4);
-	HAL_Delay(4);
-
-	do_step(8);
-	HAL_Delay(4);
+static void rotate_counter_clockwise() {
+  // поворачиваю против часовой
 }
-// Количество шагов для полного оборота
+
+// переключение режима по кнопке
+static void on_button_press() {
+  rotation = rotation == CLOCKWISE
+    ? COUNTER_CLOCKWISE
+    : CLOCKWISE;
+}
+
+
+
+
+
+
+
+static void single_step(motor_step steps) {
+
+HAL_Delay(4);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, steps & (STEP_0));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, steps & (STEP_1));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, steps & (STEP_2));
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, steps & (STEP_3));}
+
+
+
+
+static void full_step() {
+  single_step(STEP_0);
+  single_step(STEP_1);
+  single_step(STEP_2);
+  single_step(STEP_3);
+}
+
 const int steps_per_full_rotation = 512;
 
-// Повернуть на Х градусов
 const int rotate_deg = 90;
 
 int main(void) {
@@ -62,7 +84,7 @@ int main(void) {
 	MX_GPIO_Init();
 
 	for (int i = 0; i < steps_per_full_rotation / (360 / rotate_deg); i++) {
-		do_full_step(1);
+		full_step(1);
 		HAL_Delay(4);
 	}
 
@@ -144,7 +166,7 @@ void Error_Handler(void) {
 
 	__disable_irq();
 	while (1) {
-	}
+}
 
 }
 
