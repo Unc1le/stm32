@@ -21,7 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-uint8_t rxbuf[10];
+//uint8_t rxbuf[10];
+#define buf  1
+uint8_t rxbuf[buf] = {0};
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,11 +57,18 @@ static void MX_UART4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+/*void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == huart4.Instance)
     {
     HAL_UART_Receive_IT(&huart4, rxbuf, 1);
+    }
+}*/
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart->Instance == huart4.Instance)
+    {
+    HAL_UART_Receive_IT(&huart4, rxbuf, buf);
     }
 }
 /* USER CODE END 0 */
@@ -94,7 +103,8 @@ int main(void)
   MX_GPIO_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart4, rxbuf, 1);
+  //HAL_UART_Receive_IT(&huart4, rxbuf, 1);
+  HAL_UART_Receive_IT(&huart4, rxbuf, buf);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,9 +115,16 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-if (rxbuf[0] == 0xd0){HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, SET);rxbuf[0] = 0;}
-if (rxbuf[0] == 0xd5){HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, RESET);rxbuf[0] = 0;}
-
+//if (rxbuf[0] == 0xd0){HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, SET);rxbuf[0] = 0;}
+//if (rxbuf[0] == 0xd5){HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, RESET);rxbuf[0] = 0;}
+	  if(rxbuf[0] == '1')
+	          {
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 1);
+	          }
+	          else if(rxbuf[0] == '0')
+	          {
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 0);
+	          }
 
 
   }
