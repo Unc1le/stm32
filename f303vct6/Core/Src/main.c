@@ -34,11 +34,11 @@ int main(void) {
 
 			switch (step) {
 			case 0:
-										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-										HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-										break;
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+				break;
 
 			case 1:
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, SET);
@@ -83,11 +83,11 @@ int main(void) {
 
 			switch (step) {
 			case 0:
-							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
-							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
-							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
-							HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
-							break;
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_9, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, RESET);
+				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, RESET);
+				break;
 
 			case 1:
 				HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, RESET);
