@@ -120,10 +120,24 @@ int main(void)
 	  if(rxbuf[0] == '1')
 	          {
 	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_14, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 1);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 1);
 	          }
 	          else if(rxbuf[0] == '0')
 	          {
 	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_14, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_12, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_10, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, 0);
+	              HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 	          }
 
 
@@ -225,10 +239,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10
+                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
+                          |GPIO_PIN_15, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PE15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_15;
+  /*Configure GPIO pins : PE7 PE8 PE9 PE10
+                           PE11 PE12 PE13 PE14
+                           PE15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10
+                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
+                          |GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
